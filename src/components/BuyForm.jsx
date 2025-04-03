@@ -25,8 +25,8 @@ function BuyForm({ setGeneratedUrl }) {
         type="number"
         fullWidth
         {...register('chainId')}
+        helperText={'e.g., 1 for Ethereum, 59144 for Linea'}
       />
-      <FormHelperText>e.g., 1 for Ethereum, 59144 for Linea</FormHelperText>
 
       <TextField
         label="Token Contract Address (optional)"
@@ -37,16 +37,18 @@ function BuyForm({ setGeneratedUrl }) {
             message: 'Invalid Ethereum address (e.g., 0x1234...)'
           }
         })}
+        helperText={'If omitted, the native asset will be used.'}
       />
-      <FormHelperText>If omitted, the native asset will be used.</FormHelperText>
 
       <TextField
         label="Amount (optional)"
         type="text"
         fullWidth
         {...register('amount')}
+        helperText={'e.g. 1 or 0.01, etc.'}
       />
-      <FormHelperText>Can be a whole number or decimal.</FormHelperText>
+
+      <FormHelperText>The corresponding fiat amount will be based on the user's preferred fiat currency.</FormHelperText>
 
       <Button 
         type="submit" 

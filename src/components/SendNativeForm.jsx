@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { TextField, Button, Box, FormHelperText } from '@mui/material';
+import { TextField, Button, Box } from '@mui/material';
 
 function SendNativeForm({ setGeneratedUrl }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -45,8 +45,8 @@ function SendNativeForm({ setGeneratedUrl }) {
         label="Optional Value (Native asset, i.e. ETH)"
         fullWidth
         {...register('value')}
+        helperText={'i.e. 1 or 0.01, etc. - will be converted to wei (1 = 1e18, 0.01 = 1e16)'}
       />
-      <FormHelperText>Value will be converted to wei (1 = 1e18, 0.01 = 1e16)</FormHelperText>
 
       <Button 
         type="submit" 
