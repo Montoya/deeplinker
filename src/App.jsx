@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Grid, Paper, Box, Tab, Tabs } from '@mui/material';
 import { QRCodeSVG } from 'qrcode.react';
 import BrowserForm from './components/BrowserForm';
+import SendNativeForm from './components/SendNativeForm';
 
 function App() {
   const [currentTab, setCurrentTab] = useState(0);
@@ -23,10 +24,12 @@ function App() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
               <Tabs value={currentTab} onChange={handleTabChange}>
                 <Tab label="Open Browser" />
+                <Tab label="Send Native" />
               </Tabs>
             </Box>
             
-            <BrowserForm setGeneratedUrl={setGeneratedUrl} />
+            {currentTab === 0 && <BrowserForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 1 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
           </Paper>
         </Grid>
 
