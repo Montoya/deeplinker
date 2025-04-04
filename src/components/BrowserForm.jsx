@@ -1,9 +1,9 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box } from '@mui/material';
 
 function BrowserForm({ setGeneratedUrl }) {
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+  const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
   const stripProtocol = (url) => {
     return url.replace(/^(https?:\/\/)?(www\.)?/, '');
@@ -18,14 +18,39 @@ function BrowserForm({ setGeneratedUrl }) {
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <TextField
-        label="URL"
-        fullWidth
-        {...register('url', { 
-          required: 'URL is required'
-        })}
-        error={!!errors.url}
-        helperText={errors.url?.message || 'e.g., app.uniswap.org or revoke.cash'}
+      <fieldset>
+        <legend>Examples</legend>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button 
+            variant="outlined" 
+            onClick={() => setValue('url', 'portfolio.metamask.io/card')} 
+          >
+            Card Dashboard
+          </Button>
+          <Button 
+            variant="outlined" 
+            onClick={() => setValue('url', 'app.aave.com')} 
+          >
+            Aave App
+          </Button>
+        </Box>
+      </fieldset>
+
+      <Controller
+        name="url"
+        control={control}
+        defaultValue="" // Set default value
+        rules={{ required: 'URL is required' }} // Validation rules
+        render={({ field }) => (
+          <TextField
+            //inputRef={urlInputRef} // Attach the ref to the TextField
+            label="URL"
+            fullWidth
+            {...field} // Spread the field props
+            error={!!errors.url}
+            helperText={errors.url?.message || 'e.g., linea.build or revoke.cash'}
+          />
+        )}
       />
 
       <Button 

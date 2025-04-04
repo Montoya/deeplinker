@@ -1,10 +1,10 @@
 // src/components/BuyForm.jsx
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box, FormHelperText } from '@mui/material';
 
 function BuyForm({ setGeneratedUrl }) {
-  const { register, handleSubmit } = useForm();
+  const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
   const onSubmit = (data) => {
     const { chainId, address, amount } = data;
@@ -18,34 +18,77 @@ function BuyForm({ setGeneratedUrl }) {
     setGeneratedUrl(url);
   };
 
+  /* USDC contract on Linea: 0x176211869cA2b568f2A7D4EE941E073a821EE1ff */
+
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <TextField
-        label="Chain ID (optional)"
-        type="number"
-        fullWidth
-        {...register('chainId')}
-        helperText={'e.g., 1 for Ethereum, 59144 for Linea'}
+      <fieldset>
+        <legend>Examples</legend>
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button 
+            variant="outlined" 
+            onClick={() => { 
+              setValue('chainId', '59144'); 
+              setValue('address', '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'); 
+              setValue('amount', '100');
+            }} 
+          >
+            Buy 100 USDC on Linea
+          </Button>
+        </Box>
+      </fieldset>
+
+      <Controller
+        name="chainId"
+        control={control}
+        defaultValue="" // Set default value
+        render={({ field }) => (
+          <TextField
+            //inputRef={urlInputRef} // Attach the ref to the TextField
+            label="Chain ID (optional)"
+            type="number"
+            fullWidth
+            {...field} // Spread the field props
+            helperText={'e.g., 1 for Ethereum, 59144 for Linea'}
+          />
+        )}
       />
 
-      <TextField
-        label="Token Contract Address (optional)"
-        fullWidth
-        {...register('address', { 
+      <Controller
+        name="address"
+        control={control}
+        defaultValue="" // Set default value
+        rules={{
           pattern: {
             value: /^0x[a-fA-F0-9]{40}$/,
             message: 'Invalid Ethereum address (e.g., 0x1234...)'
           }
-        })}
-        helperText={'If omitted, the native asset will be used.'}
+        }}
+        render={({ field }) => (
+          <TextField
+            //inputRef={urlInputRef} // Attach the ref to the TextField
+            label="Token Contract Address (optional)"
+            fullWidth
+            {...field} // Spread the field props
+            error={!!errors.address}
+            helperText={'If omitted, the native asset will be used.'}
+          />
+        )}
       />
 
-      <TextField
-        label="Amount (optional)"
-        type="text"
-        fullWidth
-        {...register('amount')}
-        helperText={'e.g. 1 or 0.01, etc.'}
+      <Controller
+        name="amount"
+        control={control}
+        defaultValue="" // Set default value
+        render={({ field }) => (
+          <TextField
+            //inputRef={urlInputRef} // Attach the ref to the TextField
+            label="Amount (optional)"
+            fullWidth
+            {...field} // Spread the field props
+            helperText={'e.g. 1, 0.1, etc.'}
+          />
+        )}
       />
 
       <FormHelperText>The corresponding fiat amount will be based on the user's preferred fiat currency.</FormHelperText>

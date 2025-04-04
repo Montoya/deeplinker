@@ -3,7 +3,8 @@ import { Container, Grid, Paper, Box, Tab, Tabs, IconButton } from '@mui/materia
 import { QRCodeSVG } from 'qrcode.react';
 import BrowserForm from './components/BrowserForm';
 import SendNativeForm from './components/SendNativeForm';
-import BuyForm from './components/BuyForm'; // Import the new form
+import BuyForm from './components/BuyForm'; 
+import SwapForm from './components/SwapForm'; 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -36,14 +37,16 @@ function App() {
             <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
               <Tabs value={currentTab} onChange={handleTabChange}>
                 <Tab label="Open Browser" />
-                <Tab label="Send Native" />
                 <Tab label="Buy" />
+                <Tab label="Swap" />
+                <Tab label="Send Native" />
               </Tabs>
             </Box>
             
             {currentTab === 0 && <BrowserForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 1 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 2 && <BuyForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 1 && <BuyForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 2 && <SwapForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 3 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
           </Paper>
         </Grid>
 
