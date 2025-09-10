@@ -51,10 +51,10 @@ function BuyForm({ setGeneratedUrl }) {
             onClick={() => { 
               setValue('chainId', '59144'); 
               setValue('address', '0x176211869cA2b568f2A7D4EE941E073a821EE1ff'); 
-              setValue('amount', '100');
+              setValue('amount', '25');
             }} 
           >
-            Buy 100 USDC on Linea
+            Buy 25 USDC on Linea
           </Button>
         </Box>
       </fieldset>
