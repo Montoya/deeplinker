@@ -4,6 +4,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import BrowserForm from './components/BrowserForm';
 import SendNativeForm from './components/SendNativeForm';
 import BuyForm from './components/BuyForm'; 
+import SellForm from './components/SellForm';
 import SwapForm from './components/SwapForm'; 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -38,6 +39,7 @@ function App() {
               <Tabs value={currentTab} onChange={handleTabChange}>
                 <Tab label="Open Browser" />
                 <Tab label="Buy" />
+                <Tab label="Sell" />
                 <Tab label="Swap" />
                 <Tab label="Send Native" />
               </Tabs>
@@ -45,8 +47,9 @@ function App() {
             
             {currentTab === 0 && <BrowserForm setGeneratedUrl={setGeneratedUrl} />}
             {currentTab === 1 && <BuyForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 2 && <SwapForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 3 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 2 && <SellForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 3 && <SwapForm setGeneratedUrl={setGeneratedUrl} />}
+            {currentTab === 4 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
           </Paper>
         </Grid>
 

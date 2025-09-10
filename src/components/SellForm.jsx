@@ -1,9 +1,9 @@
-// src/components/BuyForm.jsx
+// src/components/SellForm.jsx
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box, FormHelperText } from '@mui/material';
 
-function BuyForm({ setGeneratedUrl }) {
+function SellForm({ setGeneratedUrl }) {
   const { control, handleSubmit, formState: { errors }, setValue } = useForm();
 
   const onSubmit = (data) => {
@@ -14,7 +14,7 @@ function BuyForm({ setGeneratedUrl }) {
     if (address) params.append('address', address);
     if (amount) params.append('amount', amount);
 
-    const url = `https://link.metamask.io/buy${params.toString() ? `?${params.toString()}` : ''}`;
+    const url = `https://link.metamask.io/sell${params.toString() ? `?${params.toString()}` : ''}`;
     setGeneratedUrl(url);
   };
 
@@ -33,7 +33,7 @@ function BuyForm({ setGeneratedUrl }) {
               setValue('amount', '0.1');
             }} 
           >
-            Buy 0.1 ETH on Ethereum
+            Sell 0.1 ETH on Ethereum
           </Button>
           <Button 
             variant="outlined" 
@@ -44,7 +44,7 @@ function BuyForm({ setGeneratedUrl }) {
             }} 
             sx={{ display: 'none' }}
           >
-            Buy 0.5 SOL on Solana
+            Sell 0.5 SOL on Solana
           </Button>
           <Button 
             variant="outlined" 
@@ -54,7 +54,7 @@ function BuyForm({ setGeneratedUrl }) {
               setValue('amount', '100');
             }} 
           >
-            Buy 100 USDC on Linea
+            Sell 100 USDC on Linea
           </Button>
         </Box>
       </fieldset>
@@ -125,4 +125,4 @@ function BuyForm({ setGeneratedUrl }) {
   );
 }
 
-export default BuyForm;
+export default SellForm;
