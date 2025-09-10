@@ -9,7 +9,7 @@ function SendNativeForm({ setGeneratedUrl }) {
     const { recipient, chainId, value } = data;
     // Convert value to wei in scientific notation
     const weiValue = value ? (parseFloat(value) * 1e18).toExponential().replace('+', '') : undefined; // Convert to wei in scientific notation
-    const url = `https://metamask.app.link/send/${recipient}@${chainId}${weiValue ? `?value=${weiValue}` : ''}`;
+    const url = `https://link.metamask.io/send/${recipient}@${chainId}${weiValue ? `?value=${weiValue}` : ''}`;
     setGeneratedUrl(url);
   };
 

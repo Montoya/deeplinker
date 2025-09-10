@@ -12,7 +12,7 @@ function BrowserForm({ setGeneratedUrl }) {
   const onSubmit = (data) => {
     const cleanUrl = stripProtocol(data.url);
     setValue('url', cleanUrl);
-    const url = `https://metamask.app.link/dapp/${cleanUrl}`;
+    const url = `https://link.metamask.io/dapp/${cleanUrl}`;
     setGeneratedUrl(url);
   };
 

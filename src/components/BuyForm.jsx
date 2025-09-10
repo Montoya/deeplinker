@@ -14,7 +14,7 @@ function BuyForm({ setGeneratedUrl }) {
     if (address) params.append('address', address);
     if (amount) params.append('amount', amount);
 
-    const url = `https://metamask.app.link/buy${params.toString() ? `?${params.toString()}` : ''}`;
+    const url = `https://link.metamask.io/buy${params.toString() ? `?${params.toString()}` : ''}`;
     setGeneratedUrl(url);
   };
 

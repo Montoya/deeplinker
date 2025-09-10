@@ -14,7 +14,7 @@ function SwapForm({ setGeneratedUrl }) {
     }
 
     // Construct the base URL
-    const baseUrl = "https://metamask.app.link/swap?";
+    const baseUrl = "https://link.metamask.io/swap?";
     const params = new URLSearchParams();
 
     // Add parameters to the URL
