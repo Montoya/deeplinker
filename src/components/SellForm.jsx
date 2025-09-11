@@ -1,10 +1,15 @@
 // src/components/SellForm.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box, FormHelperText } from '@mui/material';
 
 function SellForm({ setGeneratedUrl }) {
   const { control, handleSubmit, formState: { errors }, setValue } = useForm();
+
+  // Generate default deeplink on component mount
+  useEffect(() => {
+    onSubmit({});
+  }, []);
 
   const onSubmit = (data) => {
     const { chainId, address, amount } = data;

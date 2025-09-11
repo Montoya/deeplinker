@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button, Box, FormHelperText } from '@mui/material';
 
 function SwapForm({ setGeneratedUrl }) {
   const { control, handleSubmit, formState: { errors }, setValue } = useForm();
+
+  // Generate default deeplink on component mount
+  useEffect(() => {
+    generateSwapLink({});
+  }, []);
 
   const generateSwapLink = (data) => {
     const { fromToken, toToken, value, chainId, decimals } = data;
