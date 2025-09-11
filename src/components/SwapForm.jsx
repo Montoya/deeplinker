@@ -50,7 +50,7 @@ function SwapForm({ setGeneratedUrl }) {
 
   return (
     <Box component="form" onSubmit={handleSubmit(generateSwapLink)} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-      <FormHelperText>I have tested these links in iOS and they do not work. I am not sure if they are supposed to work.</FormHelperText>
+      <FormHelperText>None of these fields seem to work. Only the basic <code>/swap</code> link works.</FormHelperText>
       
       <fieldset>
         <legend>Examples</legend>
