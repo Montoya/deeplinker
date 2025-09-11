@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Grid, Paper, Box, Tab, Tabs, IconButton } from '@mui/material';
 import { QRCodeSVG } from 'qrcode.react';
+import HomeForm from './components/HomeForm';
 import BrowserForm from './components/BrowserForm';
 import SendNativeForm from './components/SendNativeForm';
 import BuyForm from './components/BuyForm'; 
@@ -12,6 +13,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 // Tab configuration with URL paths (accounting for GitHub Pages base path)
 const basePath = '/deeplinker';
 const tabs = [
+  { label: 'Home', path: `${basePath}/home`, component: HomeForm },
   { label: 'Open Browser', path: `${basePath}/browser`, component: BrowserForm },
   { label: 'Buy', path: `${basePath}/buy`, component: BuyForm },
   { label: 'Sell', path: `${basePath}/sell`, component: SellForm },
@@ -31,9 +33,9 @@ function App() {
     if (tabIndex !== -1) {
       setCurrentTab(tabIndex);
     } else if (path === basePath || path === `${basePath}/` || path === '/') {
-      // Default to browser tab for root path
+      // Default to home tab for root path
       setCurrentTab(0);
-      window.history.replaceState({}, '', `${basePath}/browser`);
+      window.history.replaceState({}, '', `${basePath}/home`);
     }
   }, []);
 
@@ -79,12 +81,22 @@ function App() {
         <Grid size={{ xs: 12, md: 6 }}>
           <Paper sx={{ p: 2, width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-              <Tabs value={currentTab} onChange={handleTabChange}>
-                <Tab label="Open Browser" />
-                <Tab label="Buy" />
-                <Tab label="Sell" />
-                <Tab label="Swap" />
-                <Tab label="Send Native" />
+              <Tabs 
+                value={currentTab} 
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                sx={{
+                  '& .MuiTab-root': {
+                    minWidth: 'auto',
+                    px: 2,
+                  }
+                }}
+              >
+                {tabs.map((tab, index) => (
+                  <Tab key={index} label={tab.label} />
+                ))}
               </Tabs>
             </Box>
             
