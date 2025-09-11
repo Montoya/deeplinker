@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Grid, Paper, Box, Tab, Tabs, IconButton } from '@mui/material';
 import { QRCodeSVG } from 'qrcode.react';
 import BrowserForm from './components/BrowserForm';
@@ -9,15 +9,58 @@ import SwapForm from './components/SwapForm';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
+// Tab configuration with URL paths (accounting for GitHub Pages base path)
+const basePath = '/deeplinker';
+const tabs = [
+  { label: 'Open Browser', path: `${basePath}/browser`, component: BrowserForm },
+  { label: 'Buy', path: `${basePath}/buy`, component: BuyForm },
+  { label: 'Sell', path: `${basePath}/sell`, component: SellForm },
+  { label: 'Swap', path: `${basePath}/swap`, component: SwapForm },
+  { label: 'Send Native', path: `${basePath}/send`, component: SendNativeForm },
+];
+
 function App() {
   const [currentTab, setCurrentTab] = useState(0);
   const [generatedUrl, setGeneratedUrl] = useState('');
   const [copySuccess, setCopySuccess] = useState(false);
 
+  // Initialize tab from URL on component mount
+  useEffect(() => {
+    const path = window.location.pathname;
+    const tabIndex = tabs.findIndex(tab => tab.path === path);
+    if (tabIndex !== -1) {
+      setCurrentTab(tabIndex);
+    } else if (path === basePath || path === `${basePath}/` || path === '/') {
+      // Default to browser tab for root path
+      setCurrentTab(0);
+      window.history.replaceState({}, '', `${basePath}/browser`);
+    }
+  }, []);
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      const tabIndex = tabs.findIndex(tab => tab.path === path);
+      if (tabIndex !== -1) {
+        setCurrentTab(tabIndex);
+      } else if (path === basePath || path === `${basePath}/` || path === '/') {
+        setCurrentTab(0);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const handleTabChange = (event, newValue) => {
     setCurrentTab(newValue);
     setGeneratedUrl('');
     setCopySuccess(false);
+    
+    // Update URL without page reload
+    const newPath = tabs[newValue].path;
+    window.history.pushState({}, '', newPath);
   };
 
   const handleCopy = () => {
@@ -45,11 +88,10 @@ function App() {
               </Tabs>
             </Box>
             
-            {currentTab === 0 && <BrowserForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 1 && <BuyForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 2 && <SellForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 3 && <SwapForm setGeneratedUrl={setGeneratedUrl} />}
-            {currentTab === 4 && <SendNativeForm setGeneratedUrl={setGeneratedUrl} />}
+            {(() => {
+              const CurrentComponent = tabs[currentTab].component;
+              return <CurrentComponent setGeneratedUrl={setGeneratedUrl} />;
+            })()}
           </Paper>
         </Grid>
 
