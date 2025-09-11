@@ -8,13 +8,15 @@ function SwapForm({ setGeneratedUrl }) {
   const generateSwapLink = (data) => {
     const { fromToken, toToken, value, chainId, decimals } = data;
 
+    // Construct the base URL
+    const baseUrl = "https://link.metamask.io/swap";
+
     // No op if no parameters are provided
     if (!fromToken && !toToken && !value && !chainId) {
+      setGeneratedUrl(baseUrl);
       return;
     }
 
-    // Construct the base URL
-    const baseUrl = "https://link.metamask.io/swap?";
     const params = new URLSearchParams();
 
     // Add parameters to the URL
@@ -35,7 +37,7 @@ function SwapForm({ setGeneratedUrl }) {
     }
 
     // Generate the final URL
-    const swapLink = baseUrl + params.toString();
+    const swapLink = baseUrl + '?' + params.toString();
     setGeneratedUrl(swapLink); // Set the generated link
   };
 
