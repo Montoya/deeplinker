@@ -38,11 +38,10 @@ function SellForm({ setGeneratedUrl }) {
           <Button 
             variant="outlined" 
             onClick={() => { 
-              setValue('chainId', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d'); 
+              setValue('chainId', 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp'); 
               setValue('address', ''); 
               setValue('amount', '0.5');
             }} 
-            sx={{ display: 'none' }}
           >
             Sell 0.5 SOL on Solana
           </Button>
@@ -69,7 +68,7 @@ function SellForm({ setGeneratedUrl }) {
             label="Chain ID (optional)"
             fullWidth
             {...field} // Spread the field props
-            helperText={'e.g., 1 for Ethereum, 59144 for Linea, solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d for Solana'}
+            helperText={'e.g., 1 for Ethereum, 59144 for Linea, solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp for Solana'}
           />
         )}
       />
