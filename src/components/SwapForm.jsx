@@ -58,15 +58,33 @@ function SwapForm({ setGeneratedUrl }) {
       params.append('amount', calculatedAmount);
     }
 
+    // Helper function to get the correct slip44 asset ID for EVM chains
+    const getEVMNativeAssetId = (chainId) => {
+      const chainIdNum = parseInt(chainId);
+      switch (chainIdNum) {
+        case 137: // Polygon
+          return 'slip44:966'; // POL
+        case 56: // BSC
+          return 'slip44:714'; // BNB
+        case 43114: // Avalanche
+          return 'slip44:9000'; // AVAX
+        case 1328: // Sei
+          return 'slip44:19000118'; // SEI
+        default:
+          return 'slip44:60'; // ETH (default for all other EVM chains)
+      }
+    };
+
     // Add from token parameter
     if (fromTokenType) {
       let fromTokenCAIP;
       if (fromTokenType === 'evm-native' && fromChainId) {
-        fromTokenCAIP = `eip155:${fromChainId}/slip44:60`;
+        const assetId = getEVMNativeAssetId(fromChainId);
+        fromTokenCAIP = `eip155:${fromChainId}/${assetId}`;
       } else if (fromTokenType === 'erc20' && fromChainId && fromTokenAddress) {
         fromTokenCAIP = `eip155:${fromChainId}/erc20:${fromTokenAddress}`;
       } else if (fromTokenType === 'solana') {
-        fromTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`;
+        fromTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/slip44:501`;
       } else if (fromTokenType === 'spl' && fromTokenAddress) {
         fromTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:${fromTokenAddress}`;
       }
@@ -79,11 +97,12 @@ function SwapForm({ setGeneratedUrl }) {
     if (toTokenType) {
       let toTokenCAIP;
       if (toTokenType === 'evm-native' && toChainId) {
-        toTokenCAIP = `eip155:${toChainId}/slip44:60`;
+        const assetId = getEVMNativeAssetId(toChainId);
+        toTokenCAIP = `eip155:${toChainId}/${assetId}`;
       } else if (toTokenType === 'erc20' && toChainId && toTokenAddress) {
         toTokenCAIP = `eip155:${toChainId}/erc20:${toTokenAddress}`;
       } else if (toTokenType === 'solana') {
-        toTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`;
+        toTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/slip44:501`;
       } else if (toTokenType === 'spl' && toTokenAddress) {
         toTokenCAIP = `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp/token:${toTokenAddress}`;
       }
@@ -167,6 +186,21 @@ function SwapForm({ setGeneratedUrl }) {
             }} 
           >
             Swap 0.5 SOL to ETH
+          </Button>
+          <Button 
+            variant="outlined" 
+            onClick={() => { 
+              setValue('fromChainId', '137');
+              setValue('fromTokenAddress', '');
+              setValue('fromTokenType', 'evm-native');
+              setValue('toChainId', '56');
+              setValue('toTokenAddress', '');
+              setValue('toTokenType', 'evm-native');
+              setValue('amount', '10'); // 10 MATIC
+              setValue('decimals', '18'); // MATIC has 18 decimals
+            }} 
+          >
+            Swap 10 MATIC to BNB
           </Button>
         </Box>
       </fieldset>
@@ -254,7 +288,7 @@ function SwapForm({ setGeneratedUrl }) {
               fullWidth
               {...field}
               error={!!errors.decimals}
-              helperText={errors.decimals?.message || 'e.g., 6 for USDC, 18 for ETH'}
+              helperText={errors.decimals?.message || 'e.g., 6 for USDC, 9 for SOL, 18 for ETH'}
             />
           )}
         />
